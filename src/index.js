@@ -1,12 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { createElement, render, renderDom } from './element'
+import diff from './diff'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+let VeryualDom = createElement("ul", { class: "list" }, [
+    createElement("li", { class: "item" }, ["a"]),
+    createElement("li", { class: "item" }, ["b"]),
+    createElement("li", { class: "item" }, ["c"]),
+    createElement("li", { class: "item" }, ["d"])
+])
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+let VeryualDom2 = createElement("ul", { class: "list-group" }, [
+    createElement("li", { class: "item" }, ["a"]),
+    createElement("li", { class: "item" }, ["b"]),
+    createElement("li", { class: "item" }, ["c"]),
+    createElement("li", { class: "item" }, ["d"])
+])
+
+let patchers = diff(VeryualDom, VeryualDom2)
+//vertual dom 转换 节点dom 挂载
+let el = render(VeryualDom2)
+renderDom(el, window.root)
+
+// console.log(el)
+console.log(VeryualDom)
