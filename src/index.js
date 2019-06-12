@@ -1,24 +1,21 @@
-import { createElement, render, renderDom } from './element'
+import { createElement, render, Element, renderDom } from './element'
 import diff from './diff'
-
-let VeryualDom = createElement("ul", { class: "list" }, [
-    createElement("li", { class: "item" }, ["a"]),
-    createElement("li", { class: "item" }, ["b"]),
-    createElement("li", { class: "item" }, ["c"]),
-    createElement("li", { class: "item" }, ["d"])
+let VertualDom = createElement("ul", { class: "list" }, [
+    createElement("li", { class: "itme" }, ["a"]),
+    createElement("li", { class: "itme" }, ["b"]),
+    createElement("li", { class: "itme" }, ["c"]),
 ])
 
-let VeryualDom2 = createElement("ul", { class: "list-group" }, [
-    createElement("li", { class: "item" }, ["a"]),
-    createElement("li", { class: "item" }, ["b"]),
-    createElement("li", { class: "item" }, ["c"]),
-    createElement("li", { class: "item" }, ["d"])
+let VertualDom2 = createElement("ul", { class: "list" }, [
+    createElement("li", { class: "itme" }, ["1"]),
+    createElement("li", { class: "itme" }, ["b"]),
+    createElement("li", { class: "itme" }, ["3"]),
 ])
 
-let patchers = diff(VeryualDom, VeryualDom2)
-//vertual dom 转换 节点dom 挂载
-let el = render(VeryualDom2)
+let patchs = diff(VertualDom, VertualDom2)
+//vertual Dom转换成真实Dom 渲染挂在在页面上
+let el = render(VertualDom)
 renderDom(el, window.root)
 
-// console.log(el)
-console.log(VeryualDom)
+console.log(el)
+console.log(VertualDom)
