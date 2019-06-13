@@ -1,3 +1,4 @@
+
 function diff(oldTree, newTree) {
     let patches = {}
     let index = 0;
@@ -26,7 +27,7 @@ function diffAttr(oldAttr, newAttr) {
 }
 
 //比较 children
-function diffchildren(oldChildren, newChildren, index, patches) {
+function diffchildren(oldChildren, newChildren, patches) {
     //比较老的第一个 和新的第一个
     oldChildren.forEach((child, i) => {
         //索引还是第一次比较的索引 会有问题 index每次传递的给walk都会递增一次
@@ -42,11 +43,14 @@ function isString(node) {
 //递归树
 const ATTRS = "ATTRS"
 const TEXT = "TEXT"
+const REMOVE = "REMOVE"
+const REPLACE = "REPLACE"
 let INDEX = 0;
 function walk(oldNode, newNode, index, patches) {
     let currentPatch = [];//每个元素都默认一个补丁对象
-    //判断 children 是否是文本
-    if (isString(oldNode) && isString(newNode)) {//判断文本是否变化
+    if (!newNode) { //判断节点是否删除
+        currentPatch.push({ type: REMOVE, index })
+    } else if (isString(oldNode) && isString(newNode)) {//判断文本是否变化 判断 children 是否是文本
         if (oldNode !== newNode) {
             currentPatch.push({ type: TEXT, text: newNode })
         }
@@ -57,12 +61,14 @@ function walk(oldNode, newNode, index, patches) {
             currentPatch.push({ type: ATTRS, attrs })
         }
         // if children 
-        diffchildren(oldNode.children, newNode.children, index, patches)
+        diffchildren(oldNode.children, newNode.children, patches)
+    } else {
+        //节点被替换掉
+        currentPatch.push({ type: REPLACE, newNode })
     }
     if (currentPatch.length > 0) {
         //当前元素的确又补丁修改
         patches[index] = currentPatch
-        console.log(patches)
     }
 }
 

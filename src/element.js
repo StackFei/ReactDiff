@@ -47,4 +47,4 @@ function render(eleObj) {
 function renderDom(el, target) {
     target.appendChild(el)
 }
-export { createElement, render, Element, renderDom }
+export { createElement, render, Element, renderDom ,setAttr}
